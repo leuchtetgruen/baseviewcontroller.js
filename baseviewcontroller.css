@@ -1,0 +1,51 @@
+.screen {
+		position: absolute;
+		left: 0px;
+		top: 0px;
+		width: 100%;
+		height: 100%;
+		z-index : -1000;
+		padding: 10px;
+}
+
+/* transition on opacity */
+.invisible-opacity {
+	opacity: 0;
+}
+
+.visible-opacity {
+	opacity: 1;
+}
+
+/* transition on left position */
+.invisible-left {
+	left: 100%;
+}
+
+.visible-left {
+	left: 0%;
+}
+
+/* transition on top position */
+.invisible-top {
+		top: 100%;
+}
+
+.visible-top {
+		top: 0%;
+}
+
+
+/* you can easily add more transition effects here
+ * by adding a visible-effectname class that
+ * describes the visible state and an invisible-effectname
+ * class that describes the invisible state.
+ *
+ * You then also need to add the property to the transition
+ * propertylist below in the .animatable class
+ */
+
+.animatable {
+		transition: left 1s, top 1s, opacity 1s;
+		-webkit-transition: left 1s, top 1s, opacity 1s;
+}
