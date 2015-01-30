@@ -27,10 +27,10 @@ The following transitions are already implemented:
 * `opacity` (fade in/out)
 * `left` (slide in/out to the right)
 * `top` (slide in/out to the bottom)
+* fold-(top/bottom/left/right) (fold the content in from the top/bottom/left/right)
 
 You can implement further effects by editing the `baseviewcontroller.css` file. Add an `invisible-...`
-and a `visible-...` class and add the animated property to the `.animated` class. For further details
-see the CSS file.
+and a `visible-...` class.  For further details see the CSS file.
 
 You can also override the `show()` and `hide()` methods but remember to call `this._show()` or 
 `this._hide()` in them.

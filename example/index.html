@@ -32,7 +32,7 @@
 				//ViewControllers for the two screens that switch
 				var ScreenOneVC = BaseViewController.extend({
 								//TODO for you - try opacity or left as transition
-								transition : "top",
+								transition : "fold-top",
 
 								events : {
 									'click #showOtherScreen' : 'showOtherScreen'
@@ -58,7 +58,7 @@
 
 				var ScreenTwoVC = BaseViewController.extend({
 								//TODO for you - try opacity or left as transition
-								transition : "top",
+								transition : "left",
 
 								events : {
 									'click #showOtherScreen' : 'showOtherScreen'
