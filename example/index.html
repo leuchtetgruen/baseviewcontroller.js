@@ -44,8 +44,18 @@
 								},
 
 								render : function() {
+										var that = this;
 										this._render('templates/screen.html', {nr : "1"}, function(data) {
 												console.log("Screen 1 was rendered");
+
+												plus = function() {
+													that.result.set(
+															parseInt(that.operandA()) + 
+															parseInt(that.operandB())
+													);
+												};
+												that.operandA.on("change", plus);
+												that.operandB.on("change", plus);
 										});
 								},
 

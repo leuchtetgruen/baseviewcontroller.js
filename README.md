@@ -48,7 +48,8 @@ calls the `show()` method of the viewcontroller. The parameters have the followi
 
 # Dynamic View injection
 
-TODO : Documentation is yet to come
+TODO : Documentation is yet to come but see ScreenOneVC and template.html for an
+impression of what you're able to do with this.
 
 view-types :
 * textview -> TextView
