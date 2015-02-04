@@ -4,9 +4,9 @@ var Valuable = function(elem) {
 		};
 		_.extend(f, Backbone.Events);
 
-		f.set = function(val) {
+		f.set = function(val, dontTrigger) {
 				elem.val(val);
-				this.trigger("change", val);
+				if (!dontTrigger) this.trigger("change", val);
 		};
 		f.get = function() {
 				return elem.val();

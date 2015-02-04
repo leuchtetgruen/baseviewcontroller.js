@@ -6,6 +6,18 @@ var BaseModel = Backbone.Model.extend({
 				return Backbone.Model.prototype.get.call(this, attr);
 		},
 
+		bindView : function(attr, view) {
+				this[attr] = view;
+				var that = this;
+				view.on("change", function() {
+						that.set(attr, view());
+				});
+				this.on("change:" + attr, function(model,value) {
+						// change the value in the view as well but dont trigger another change event
+						view.set(value);
+				});
+		},
+
 		_attributes : function() {
 				var withoutAttrs = ["constructor"].concat(_.keys(Backbone.Model.prototype)).concat(_.keys(Backbone.Model));
 				var nativeAttrs = _.keys(this.attributes);

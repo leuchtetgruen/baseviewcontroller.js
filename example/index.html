@@ -31,6 +31,15 @@
         
 	<script type="text/javascript">
 				//ViewControllers for the two screens that switch
+				var PlusModel = BaseModel.extend({
+									initialize : function() {
+										this.on("change:a", this.add);
+										this.on("change:b", this.add);
+									},
+									add : function(noJSON) {
+										this.set("result", parseInt(this.get("a")) + parseInt(this.get("b"))); 
+									},
+								});
 				var ScreenOneVC = BaseViewController.extend({
 								//TODO for you - try opacity or left as transition
 								transition : "fold-top",
@@ -48,14 +57,10 @@
 										this._render('templates/screen.html', {nr : "1"}, function(data) {
 												console.log("Screen 1 was rendered");
 
-												plus = function() {
-													that.result.set(
-															parseInt(that.operandA()) + 
-															parseInt(that.operandB())
-													);
-												};
-												that.operandA.on("change", plus);
-												that.operandB.on("change", plus);
+												that.model = new PlusModel();
+												that.model.bindView("a", that.operandA);
+												that.model.bindView("b", that.operandB);
+												that.model.bindView("result", that.result);
 										});
 								},
 
