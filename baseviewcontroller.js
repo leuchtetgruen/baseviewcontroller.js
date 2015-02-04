@@ -123,6 +123,7 @@ var BaseViewController = Backbone.View.extend({
 					});
 					that.show();
 					if (callback) callback(data);
+					if (that.doneRendering && (typeof(that.doneRendering)=="function")) that.doneRendering(data);
 			});
 
 	},

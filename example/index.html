@@ -49,19 +49,21 @@
 								},
 
 								initialize : function() {
+									this.model = new PlusModel();
 									this.render();
 								},
 
 								render : function() {
 										var that = this;
-										this._render('templates/screen.html', {nr : "1"}, function(data) {
-												console.log("Screen 1 was rendered");
+										this._render('templates/screen.html', {nr : "1"});
+								},
 
-												that.model = new PlusModel();
-												that.model.bindView("a", that.operandA);
-												that.model.bindView("b", that.operandB);
-												that.model.bindView("result", that.result);
-										});
+								doneRendering : function(data) {
+										console.log("Screen 1 was rendered");
+
+										that.model.bindView("a", that.operandA);
+										that.model.bindView("b", that.operandB);
+										that.model.bindView("result", that.result);
 								},
 
 
