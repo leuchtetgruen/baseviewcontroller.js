@@ -1,3 +1,25 @@
+var TextView = function(elem) {
+		var f = function() {
+				return elem.val();
+		};
+		_.extend(f, Backbone.Events);
+
+		f.set = function(val) {
+				elem.val(val);
+				this.trigger("change", val);
+		};
+		f.get = function() {
+				return elem.val();
+		};
+
+		elem.change(function(e) {
+				f.trigger("change", elem.val());
+		});
+
+		return f;
+};
+
+
 var BaseViewController = Backbone.View.extend({
 	_hide : function(doEmpty) {
 			var that = this;
@@ -92,9 +114,32 @@ var BaseViewController = Backbone.View.extend({
 					rendered_html_fct = _.template(data);
 					rendered_html = rendered_html_fct(values || {});
 					that.$el.html(rendered_html);
+					that.$el.ready(function() {
+							that.injectViews(that.$el);
+					});
 					that.show();
 					if (callback) callback(data);
 			});
 
+	},
+
+	injectViews : function(root) {
+			this.injectView(root);
+			var children = $(root).children();
+			if (children.length > 0) {
+					for (var i=0; i < children.length; i++) {
+						var child = $(children[i]);
+						this.injectViews(child);
+					}
+			}
+	},
+
+	injectView : function(elem) {
+			if (!elem.attr("id")) return;
+
+			var viewType = elem.attr("view-type");
+			if (viewType == "textview") {
+					this[elem.attr("id")] = TextView(elem);
+			}
 	},
 });

@@ -5,6 +5,8 @@ BaseViewController.js is an extension of `Backbone.View` from Backbone.js .
 It introduces the concepts of screens, useful for mobile applications. It also
 enables you to fill screens with templates that you store in seperate files.
 The extension also introduces transition animations between screens using CSS3.
+It also introduces dynamic view injection allowing you to treat view kind of like
+models.
 
 #Requirements
 * [Backbone.js](http://backbonejs.org/)
@@ -43,6 +45,13 @@ calls the `show()` method of the viewcontroller. The parameters have the followi
 * The data is a hash that contains data for using in the template. See [`_.template`](http://underscorejs.org/#template)
   for further information on how to use variables in templates.
 * The callback will be called after the templated is fully loaded. The template content is passed to the callback as a parameter.
+
+# Dynamic View injection
+
+TODO : Documentation is yet to come
+
+view-types :
+* textview -> TextView
 
 
 
