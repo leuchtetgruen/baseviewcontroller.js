@@ -1,8 +1,22 @@
+var Bindable = {
+		bindTo : function(otherElem) {
+				this.on("change", function(val) {
+						otherElem.set(val);
+				});
+
+				var that = this;
+				otherElem.on("change", function(val) {
+						that.set(val);
+				});
+		},
+};
+
 var Valuable = function(elem) {
 		var f = function() {
 				return elem.val();
 		};
 		_.extend(f, Backbone.Events);
+		_.extend(f, Bindable);
 
 		f.set = function(val, dontTrigger) {
 				elem.val(val);
@@ -19,8 +33,31 @@ var Valuable = function(elem) {
 		return f;
 };
 
+var HTMLable = function(elem) {
+		var f = function() {
+				return elem.html();
+		};
+		_.extend(f, Backbone.Events);
+		_.extend(f, Bindable);
+
+		f.set = function(val, dontTrigger) {
+				elem.html(val);
+				if (!dontTrigger) this.trigger("change", val);
+		};
+		f.get = function() {
+				return elem.html();
+		};
+
+		elem.change(function(e) {
+				f.trigger("change", elem.html());
+		});
+
+		return f;
+};
+
 var TextView = Valuable;
 var Slider = Valuable;
+var ContentView = HTMLable;
 
 
 
@@ -147,7 +184,10 @@ var BaseViewController = Backbone.View.extend({
 					this[elem.attr("id")] = TextView(elem);
 			}
 			else if (viewType == "slider") {
-					this[elem.attr("id")] = TextView(elem);
+					this[elem.attr("id")] = Slider(elem);
+			}
+			else if (viewType == "contentview") {
+					this[elem.attr("id")] = ContentView(elem);
 			}
 	},
 });
