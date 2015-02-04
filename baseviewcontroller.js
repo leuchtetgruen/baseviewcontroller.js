@@ -1,4 +1,4 @@
-var TextView = function(elem) {
+var Valuable = function(elem) {
 		var f = function() {
 				return elem.val();
 		};
@@ -18,6 +18,10 @@ var TextView = function(elem) {
 
 		return f;
 };
+
+var TextView = Valuable;
+var Slider = Valuable;
+
 
 
 var BaseViewController = Backbone.View.extend({
@@ -139,6 +143,9 @@ var BaseViewController = Backbone.View.extend({
 
 			var viewType = elem.attr("view-type");
 			if (viewType == "textview") {
+					this[elem.attr("id")] = TextView(elem);
+			}
+			else if (viewType == "slider") {
 					this[elem.attr("id")] = TextView(elem);
 			}
 	},
