@@ -1,4 +1,8 @@
 var Bindable = {
+		/* 
+		 * Bind one view to another so changes in one
+		 * will be reflected in the other immediatly.
+		 */
 		bindTo : function(otherElem) {
 				this.on("change", function(val) {
 						otherElem.set(val);
@@ -10,6 +14,14 @@ var Bindable = {
 				});
 		},
 
+		/*
+		 * This function copies functions already present
+		 * for the element to the view. These are e.g.
+		 * jQuery functions.
+		 * So you can e.g. on call .css("color", "red") on a
+		 * ContentView instead of having to refer to the the 
+		 * element of the contentView
+		 */
 		copyElementFunctions : function() {
 				var that = this;
 				var elem = this.element;
@@ -40,6 +52,34 @@ var Bindable = {
 		},
 };
 
+/*
+ * The general view mechanism goes like this:
+ *
+ * Views-constructors are functions that take an
+ * element and return a function themselves.
+ *
+ * The returned function acts as a getter on the content
+ * of the view (e.g. the text in a textfield)
+ *
+ * As functions are just "objects" and can also have properties
+ * the returned function has several functions of itself.
+ * These are set and get functions for manipulating and
+ * reading the view content.
+ * The Backbone.Events object is also mixed into the returned function
+ * so it can react to changes. And the Bindable object is mixed in.
+ *
+ * A change in the element will trigger a change event on the object.
+ *
+ * See the comments in BaseModel.js for learning how to easily use views
+ * as properties in models.
+ */
+
+
+/* 
+ * Valuables are Views that present their content via the jQuery val(...)-Function.
+ * Other than that read the general comment on views above to learn more on how this
+ * works
+ */
 var Valuable = function(elem) {
 		var f = function() {
 				return elem.val();
@@ -65,6 +105,11 @@ var Valuable = function(elem) {
 		return f;
 };
 
+/*
+ * HTMLables are views that present their content via the jQuery html(...)-function.
+ * Other than that read the general comment on views above to learn more on how this
+ * works
+ */
 var HTMLable = function(elem) {
 		var f = function() {
 				return elem.html();
@@ -90,10 +135,17 @@ var HTMLable = function(elem) {
 		return f;
 };
 
+/*
+ * Define the different classes of views
+ */
 var TextView = Valuable;
 var Slider = Valuable;
 var ContentView = HTMLable;
 
+/* And assign them to their markup keywords in the
+ * view-type attribute of each html element in a 
+ * template
+ */
 var ViewTypes = {
 		"textview" : TextView,
 		"slider" : Slider,
