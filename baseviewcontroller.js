@@ -137,6 +137,8 @@ var HTMLable = function(elem) {
 
 /*
  * Define the different classes of views
+ * that might be extended with different
+ * functions later.
  */
 var TextView = Valuable;
 var Slider = Valuable;
@@ -152,6 +154,16 @@ var ViewTypes = {
 		"contentview" : ContentView
 };
 
+// -------------------------------------------------
+
+
+/*
+ * BaseViewController is an extension of Backbone.View that
+ * acts as a real view controller. It features
+ * - Injection of views as objects
+ * - Animations / Transitions of views
+ *
+ */
 var BaseViewController = Backbone.View.extend({
 	/*
 	 * This is the internal hide function that should also be called
