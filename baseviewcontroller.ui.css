@@ -1,0 +1,8 @@
+.tabview {
+		width: 100%;
+}
+
+.tab {
+		list-style: none;
+		display: inline;
+}

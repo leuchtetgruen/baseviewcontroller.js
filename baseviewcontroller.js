@@ -80,7 +80,7 @@ var Bindable = {
  * Other than that read the general comment on views above to learn more on how this
  * works
  */
-var Valuable = function(elem) {
+var Valuable = function(elem, vc) {
 		var f = function() {
 				return elem.val();
 		};
@@ -93,6 +93,9 @@ var Valuable = function(elem) {
 		};
 		f.get = function() {
 				return elem.val();
+		};
+		f.toString = function() {
+				return "Valuable based on #" + $(elem).attr("id") + " => " + this.get();
 		};
 
 		elem.change(function(e) {
@@ -110,7 +113,7 @@ var Valuable = function(elem) {
  * Other than that read the general comment on views above to learn more on how this
  * works
  */
-var HTMLable = function(elem) {
+var HTMLable = function(elem, vc) {
 		var f = function() {
 				return elem.html();
 		};
@@ -124,6 +127,9 @@ var HTMLable = function(elem) {
 		f.get = function() {
 				return elem.html();
 		};
+		f.toString = function() {
+				return "HTMLable based on #" + $(elem).attr("id") + " => " + this.get();
+		}
 
 		elem.change(function(e) {
 				f.trigger("change", elem.html());
@@ -135,6 +141,36 @@ var HTMLable = function(elem) {
 		return f;
 };
 
+var Container = function(elem, vc) {
+
+		var f = function() {
+				return this.children;
+		};
+		f.children = _.map($(elem).children(), function(child) {
+				return vc.injectView($(child));
+		});
+		_.extend(f, Backbone.Events);
+		_.extend(f, Bindable);
+
+		f.get = function() {
+			return this.children;
+		};
+		f.append = function(view) {
+				this.children.push(view);
+				elem.append(view.element);
+		};
+		f.toString = function() {
+				return "Container based on #" + $(elem).attr("id") + " => [" + _.map(this.children, function(c) {
+						return c.toString();
+				}) + "]";
+		}
+
+		f.element = elem;
+		f.copyElementFunctions();
+
+		return f;
+}
+
 /*
  * Define the different classes of views
  * that might be extended with different
@@ -143,6 +179,17 @@ var HTMLable = function(elem) {
 var TextView = Valuable;
 var Slider = Valuable;
 var ContentView = HTMLable;
+var TabView = _.extend(Container, {
+		initialize : function(view) {
+				$(view.element).addClass("tabview");
+		},
+});
+var TabItem = _.extend(HTMLable, {
+		initialize : function(view) {
+				console.log("Calling init on TabItem " + view);
+				$(view.element).addClass("tab");
+		},
+});
 
 /* And assign them to their markup keywords in the
  * view-type attribute of each html element in a 
@@ -151,7 +198,10 @@ var ContentView = HTMLable;
 var ViewTypes = {
 		"textview" : TextView,
 		"slider" : Slider,
-		"contentview" : ContentView
+		"contentview" : ContentView,
+		"tabview" : TabView,
+		"tabitem" : TabItem,
+		"container" : Container,
 };
 
 // -------------------------------------------------
@@ -336,7 +386,7 @@ var BaseViewController = Backbone.View.extend({
 					rendered_html = rendered_html_fct(values || {});
 					that.$el.html(rendered_html);
 					that.$el.ready(function() {
-							that.injectViews(that.$el);
+							that.injectViews(that.$el, 0);
 					});
 					that.show();
 					if (callback) callback(data);
@@ -348,16 +398,22 @@ var BaseViewController = Backbone.View.extend({
 	/*
 	 * Recursive function. Calls injectView on the root 
 	 * element and then calls itself on all its children()
+	 *
+	 * Then calls the delegateEvents function again to 
+	 * delegate events specified in injected views
 	 */
-	injectViews : function(root) {
+	injectViews : function(root, level) {
+			if (level > 5) return;
+
 			this.injectView(root);
 
 			var children = $(root).children();
 			if (children.length > 0) {
 					for (var i=0; i < children.length; i++) {
 						var child = $(children[i]);
-						this.injectViews(child);
+						this.injectViews(child, level + 1);
 					}
+					this.delegateEvents();
 			}
 	},
 
@@ -367,6 +423,7 @@ var BaseViewController = Backbone.View.extend({
 	 */
 	injectView : function(elem) {
 			if (!elem.attr("id")) return;
+
 
 			var viewType = elem.attr("view-type");
 
@@ -378,8 +435,47 @@ var BaseViewController = Backbone.View.extend({
 			 */
 			for (var vType in ViewTypes) {
 					if (viewType == vType) {
-							this[elem.attr("id")] = ViewTypes[vType].call(this, elem);
+							var view = ViewTypes[vType].apply(ViewTypes[vType], [elem, this]);
+							if (ViewTypes[vType].initialize) {
+								ViewTypes[vType].initialize(view);
+							}
+							if (view.initialize) {
+									view.initialize();
+							}
+
+							this[elem.attr("id")] = view;
+
+							this.parseEvents(elem);
+							return view;
 					}
 			}
+	},
+
+
+	/*
+	 * Called when a view is injected. This will also put
+	 * the events described in the view-events attribute
+	 * into events hash of the object, which is then evaluated
+	 * by backbone.js
+	 *
+	 * The syntax of this element is 'event : methodName'
+	 * e.g. 'click  : tab1Clicked'
+	 */
+	parseEvents : function(elem) {
+			if (!elem.attr("view-events")) return;
+
+			if (!this.events) {
+				this.events = {};
+			}
+
+			var that = this;
+			var viewEvents = elem.attr("view-events").split(",");
+			_.each(viewEvents, function(eventString) {
+					var splitted = eventString.split(":");
+					if (splitted.length == 2) {
+							var fullEventSelector = splitted[0] + " #" + elem.attr("id");
+							that.events[fullEventSelector] = splitted[1].trim();
+					}
+			});
 	},
 });
