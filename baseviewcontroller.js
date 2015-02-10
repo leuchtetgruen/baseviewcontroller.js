@@ -19,7 +19,7 @@ var BaseViewController = Backbone.View.extend({
 	 * view controller will work with.
 	 */
 	transitionTo : function(ViewControllerClass, element, data) {
-			this.hide();
+			this.hide(true);
 			if (data) {
 					var MixedVcClass = ViewControllerClass.extend(data);
 			}
@@ -162,8 +162,8 @@ var BaseViewController = Backbone.View.extend({
 	 * hide function but remember to call 
 	 * this._hide() within your code
 	 */
-	hide : function() {
-			this._hide();
+	hide : function(doEmpty) {
+			this._hide(doEmpty);
 	},
 
 	/*

@@ -21,6 +21,9 @@ var CollectionsAdapter = {
 				setCollection : function(_collection) {
 					this.collection = _collection;
 				},
+				extend : function(extension) {
+						return _.extend(_.clone(this), extension);
+				},
 };
 
 
