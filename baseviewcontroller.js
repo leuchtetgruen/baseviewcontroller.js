@@ -20,7 +20,10 @@ var BaseViewController = Backbone.View.extend({
 	 */
 	transitionTo : function(ViewControllerClass, element, data) {
 			this.hide();
-			new ViewControllerClass(_.extend({ el : element}, data));
+			if (data) {
+					var MixedVcClass = ViewControllerClass.extend(data);
+			}
+			new MixedVcClass({ el : element});
 	}, 
 
 	/*
