@@ -19,12 +19,25 @@ var BaseViewController = Backbone.View.extend({
 	 * view controller will work with.
 	 */
 	transitionTo : function(ViewControllerClass, element, data) {
-			this.hide(true);
-			if (data) {
-					var MixedVcClass = ViewControllerClass.extend(data);
-			}
+			this.hide(false);
+			var extendedData = _.extend({
+					fromViewController : this
+			}, data);
+			var MixedVcClass = ViewControllerClass.extend(extendedData);
 			new MixedVcClass({ el : element});
 	}, 
+
+	/*
+	 * This will transition back to the last view controller shown.
+	 * It only works when the content of the element was not emptied or
+	 * overwritten.
+	 */
+	transitionBack : function() {
+			if (this.fromViewController) {
+					this.hide();
+					this.fromViewController.show();
+			}
+	},
 
 	/*
 	 * This is the internal hide function that should also be called
