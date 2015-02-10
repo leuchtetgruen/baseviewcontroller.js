@@ -1,4 +1,29 @@
 // List views
+
+
+var CollectionsAdapter = {
+				count : function() {
+						return this.collection.length;
+				},
+				build : function(idx) {
+						if (this.buildItemFromModel) {
+							return this.buildItemFromModel(this.collection.at(idx));
+						}
+						else {
+							return $('<li >' + this.collection.at(idx).toString() + "</li>");
+						}
+				},
+				selectedItem : function(idx) {
+						if (this.selectedItemFromModel) {
+								this.selectedItemFromModel(this.collection.at(idx));
+						}
+				},
+				setCollection : function(_collection) {
+					this.collection = _collection;
+				},
+};
+
+
 var ListView = function(elem, vc, mixins) {
 		var myMixins = {
 				initialize : function() {
@@ -15,13 +40,14 @@ var ListView = function(elem, vc, mixins) {
 				setAdapter : function(_adapter) {
 						this.adapter = _adapter;
 						this.adapter.listView = this;
+						this.adapter.attachedViewController = vc;
 
 						var that = this;
 						this.adapter.rebuildListView = function() {
 								that.build();
 						};
-						this.build();
 				},
+
 				build : function() {
 						if (!this.adapter) return null;
 						if (!this.adapter.count) return null;
@@ -37,8 +63,8 @@ var ListView = function(elem, vc, mixins) {
 						this.resetChildren();
 						for (var i=0; i < this.adapter.count(); i++) {
 								var elem = this.adapter.build(i);
-								console.log(elem);
 								var lItem = new ListItem(elem, vc);
+								lItem.initialize();
 
 								if (this.adapter.selectedItem) {
 									// I cannot write the handler directly in here
@@ -50,6 +76,10 @@ var ListView = function(elem, vc, mixins) {
 								}
 
 								this.append(lItem);
+
+								if (this.adapter.customizeListItem) {
+									this.adapter.customizeListItem(lItem, i);
+								}
 						}
 							
 				},

@@ -112,6 +112,7 @@ var Valuable = function(elem, vc, mixins) {
 
 		f.element = elem;
 		f.copyElementFunctions();
+		f.attachedViewController = vc;
 
 		return f;
 };
@@ -146,6 +147,7 @@ var HTMLable = function(elem, vc, mixins) {
 
 		f.element = elem;
 		f.copyElementFunctions();
+		f.attachedViewController = vc;
 
 		return f;
 };
@@ -186,6 +188,7 @@ var Container = function(elem, vc, mixins) {
 
 		f.element = elem;
 		f.copyElementFunctions();
+		f.attachedViewController = vc;
 
 		return f;
 }

@@ -9,6 +9,20 @@
  *
  */
 var BaseViewController = Backbone.View.extend({
+
+
+	/*
+	 * This is a method to transition to another view
+	 * controller. You need to pass the element the view
+	 * controllers content will be rendered in.
+	 * You can also pass additional data that the new
+	 * view controller will work with.
+	 */
+	transitionTo : function(ViewControllerClass, element, data) {
+			this.hide();
+			new ViewControllerClass(_.extend({ el : element}, data));
+	}, 
+
 	/*
 	 * This is the internal hide function that should also be called
 	 * when overriding .hide()
