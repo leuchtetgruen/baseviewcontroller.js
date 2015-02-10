@@ -80,12 +80,13 @@ var Bindable = {
  * Other than that read the general comment on views above to learn more on how this
  * works
  */
-var Valuable = function(elem, vc) {
+var Valuable = function(elem, vc, mixins) {
 		var f = function() {
 				return elem.val();
 		};
 		_.extend(f, Backbone.Events);
 		_.extend(f, Bindable);
+		if (mixins) _.extend(f, mixins);
 
 		f.set = function(val, dontTrigger) {
 				elem.val(val);
@@ -113,12 +114,13 @@ var Valuable = function(elem, vc) {
  * Other than that read the general comment on views above to learn more on how this
  * works
  */
-var HTMLable = function(elem, vc) {
+var HTMLable = function(elem, vc, mixins) {
 		var f = function() {
 				return elem.html();
 		};
 		_.extend(f, Backbone.Events);
 		_.extend(f, Bindable);
+		if (mixins) _.extend(f, mixins);
 
 		f.set = function(val, dontTrigger) {
 				elem.html(val);
@@ -141,26 +143,36 @@ var HTMLable = function(elem, vc) {
 		return f;
 };
 
-var Container = function(elem, vc) {
+var Container = function(elem, vc, mixins) {
 
 		var f = function() {
-				return this.children;
+				return this.childViews;
 		};
-		f.children = _.map($(elem).children(), function(child) {
-				return vc.injectView($(child));
+		f.childViews = _.map($(elem).children(), function(child) {
+				var childView = vc.injectView($(child));
+				childView.parentContainer = f;
+				return childView;
 		});
 		_.extend(f, Backbone.Events);
 		_.extend(f, Bindable);
+		if (mixins) _.extend(f, mixins);
 
 		f.get = function() {
-			return this.children;
+			return this.childViews;
 		};
 		f.append = function(view) {
-				this.children.push(view);
+				this.childViews.push(view);
 				elem.append(view.element);
+				view.parentContainer = this;
+		};
+		f.resetChildren = function() {
+				_.each(this.childViews, function(child) {
+						$(child.element).remove();
+				});
+				this.childViews = [];
 		};
 		f.toString = function() {
-				return "Container based on #" + $(elem).attr("id") + " => [" + _.map(this.children, function(c) {
+				return "Container based on #" + $(elem).attr("id") + " => [" + _.map(this.childViews, function(c) {
 						return c.toString();
 				}) + "]";
 		}
@@ -179,17 +191,61 @@ var Container = function(elem, vc) {
 var TextView = Valuable;
 var Slider = Valuable;
 var ContentView = HTMLable;
-var TabView = _.extend(Container, {
-		initialize : function(view) {
-				$(view.element).addClass("tabview");
-		},
-});
-var TabItem = _.extend(HTMLable, {
-		initialize : function(view) {
-				console.log("Calling init on TabItem " + view);
-				$(view.element).addClass("tab");
-		},
-});
+
+// Tab functions
+var TabView = function(elem, vc, mixins) {
+		var myMixins = {
+				initialize : function() {
+						$(this.element).addClass("tabview");
+				},
+				setContentElement : function(element) {
+						this.contentElement = element;
+				},
+				loadDefaultTab : function() {
+						this.childViews[0].click();
+				},
+		}
+		mergedMixins = _.extend(mixins || {} , myMixins);
+		return Container(elem, vc, mergedMixins);
+};
+var TabItem = function(elem, vc, mixins) {
+		var myMixins = {
+				initialize : function() {
+						$(this.element).addClass("tab");
+				},
+				setViewController : function(viewControllerClass) {
+						var that = this;
+						this.click(function() {
+								new viewControllerClass({el : $(that.parentContainer.contentElement)});
+						});
+				}
+		};
+		mergedMixins = _.extend(mixins || {}, myMixins);
+		return HTMLable(elem, vc, mergedMixins);
+
+};
+
+// List functions
+var ListView = function(elem, vc, mixins) {
+		var myMixins = {
+				initialize : function() {
+						$(this.element).addClass("listview");
+				},
+		};
+		mergedMixins = _.extend(mixins || {}, myMixins);
+		return Container(elem, vc, mergedMixins);
+};
+var ListItem = function(elem, vc, mixins) {
+		var myMixins = {
+				initialize : function() {
+					$(this.element).addClass("listitem");
+				}
+		};
+		mergedMixins = _.extend(mixins || {}, myMixins);
+		return HTMLable(elem, vc, mergedMixins);
+};
+
+
 
 /* And assign them to their markup keywords in the
  * view-type attribute of each html element in a 
@@ -202,6 +258,8 @@ var ViewTypes = {
 		"tabview" : TabView,
 		"tabitem" : TabItem,
 		"container" : Container,
+		"listview" : ListView,
+		"listitem" : ListItem
 };
 
 // -------------------------------------------------
@@ -423,6 +481,7 @@ var BaseViewController = Backbone.View.extend({
 	 */
 	injectView : function(elem) {
 			if (!elem.attr("id")) return;
+			if (this[elem.attr("id")]) return;  // This element already exists
 
 
 			var viewType = elem.attr("view-type");
@@ -436,9 +495,6 @@ var BaseViewController = Backbone.View.extend({
 			for (var vType in ViewTypes) {
 					if (viewType == vType) {
 							var view = ViewTypes[vType].apply(ViewTypes[vType], [elem, this]);
-							if (ViewTypes[vType].initialize) {
-								ViewTypes[vType].initialize(view);
-							}
 							if (view.initialize) {
 									view.initialize();
 							}
