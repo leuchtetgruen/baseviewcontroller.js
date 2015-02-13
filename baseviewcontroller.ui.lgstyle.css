@@ -1,0 +1,17 @@
+ul.listview {
+	list-style-type: none;
+
+	/* reset */
+	padding: 0px;
+}
+
+li.listitem {
+		line-height: 45px;
+		padding: 5px;
+
+		border-top: 1px solid #000;
+}
+
+li.listitem:first-child {
+	border-top: none;
+}

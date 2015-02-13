@@ -10,7 +10,7 @@ var CollectionsAdapter = {
 							return this.buildItemFromModel(this.collection.at(idx));
 						}
 						else {
-							return $('<li >' + this.collection.at(idx).toString() + "</li>");
+							return $('<li>' + this.collection.at(idx).toString() + "</li>");
 						}
 				},
 				selectedItem : function(idx) {
@@ -20,6 +20,13 @@ var CollectionsAdapter = {
 				},
 				setCollection : function(_collection) {
 					this.collection = _collection;
+					var that = this;
+					_.each(["add", "remove","change"], function(evt) {
+							that.collection.on(evt, function() {
+									console.log(evt + " thrown");
+									that.rebuildListView();
+							});
+					});
 				},
 				extend : function(extension) {
 						return _.extend(_.clone(this), extension);
