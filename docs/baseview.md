@@ -19,8 +19,8 @@ have a `view-type` attribute. The view-type has to have one of the following val
 * [ container ](views/container.md)
 * [ textview ](views/textview.md)
 * [ slider ](views/slider.md)
-* toggleable
-* listview
+* [ toggleable ](views/toggleable.md)
+* [ listview ](views/listview.md)
 * listitem
 * tabview
 * tabitem
