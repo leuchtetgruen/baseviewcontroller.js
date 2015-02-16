@@ -246,8 +246,7 @@ var BaseViewController = Backbone.View.extend({
 	 * the viewcontroller as properties
 	 */
 	injectView : function(elem) {
-			if (!elem.attr("id")) return;
-			if (this[elem.attr("id")]) return;  // This element already exists
+			if (elem.attr("id") && this[elem.attr("id")]) return;
 
 
 			var viewType = elem.attr("view-type");
@@ -265,7 +264,7 @@ var BaseViewController = Backbone.View.extend({
 									view.initialize();
 							}
 
-							this[elem.attr("id")] = view;
+							if (elem.attr("id")) this[elem.attr("id")] = view;
 
 							this.parseEvents(elem);
 							return view;

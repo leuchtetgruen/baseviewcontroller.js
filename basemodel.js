@@ -28,15 +28,17 @@ var BaseModel = Backbone.Model.extend({
 		 * as an attribute. So you can e.g. attach a textfield as a property of a model. So once
 		 * the content of the textfield changes the property of the model also changes.
 		 */
-		bindView : function(attr, view) {
+		bindView : function(attr, view, save) {
 				this[attr] = view;
 				var that = this;
+				view.set(this.get(attr));
 				view.on("change", function() {
 						that.set(attr, view());
 				});
 				this.on("change:" + attr, function(model,value) {
 						// change the value in the view as well but dont trigger another change event
 						view.set(value);
+						if (save) model.save();
 				});
 		},
 
