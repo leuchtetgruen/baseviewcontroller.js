@@ -15,7 +15,7 @@ var BaseModel = Backbone.Model.extend({
 		 * without parameters as attributes.
 		 */
 		get: function (attr) {
-				if ((typeof(that[attr])=="function") && that[attr].toString().match(/function.\(\)/)) {
+				if ((typeof(this[attr])=="function") && this[attr].toString().match(/function.\(\)/)) {
 						return this[attr]();
 				}
 				else {

@@ -19,7 +19,14 @@ var BaseViewController = Backbone.View.extend({
 	 * view controller will work with.
 	 */
 	transitionTo : function(ViewControllerClass, element, data) {
-			this.hide(false);
+			if (data && data['hide']) {
+					_doHide = data['hide'];
+					data = _.omit(data, 'hide');
+
+			} 
+			else _doHide = false;
+
+			this.hide(_doHide);
 			var extendedData = _.extend({
 					fromViewController : this
 			}, data);
