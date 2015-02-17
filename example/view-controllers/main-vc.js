@@ -1,5 +1,10 @@
 var MainViewController = BaseViewController.extend({
 		todos : null,
+		newTodoVc : null,
+
+		events : {
+				"click #newTodo" : "newTodoClicked",
+		},
 
 		template_url : "templates/main.html",
 
@@ -30,5 +35,19 @@ var MainViewController = BaseViewController.extend({
 
 				this.tabTodo.set("Yet to do (" + yetTodos.length + ")")
 				this.tabDone.set("Done (" + doneTodos.length + ")")
+		},
+
+		newTodoClicked : function() {
+				if (this.newTodoVc && this.newTodoVc.$el.is(":visible")) {
+						this.newTodoVc.hide();
+						this.newTodo.set("+");
+				}
+				else {
+						var VC = NewTodoController.extend({ todos : this.todos});
+						this.newTodoVc = new VC({ el : $('#newTodoItemView')});
+						this.newTodo.set("x");
+				}
+
+				
 		},
 });

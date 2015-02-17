@@ -15,8 +15,32 @@ body,html {
 .headerbar {
 	width: 100%;
 	height: 50px;
-	line-height: 50px;
 	background-color: #DF4949;
+	padding: 0px;
+}
+
+.headerbar h1 {
+	display: table-cell;
+	vertical-align: middle;
+	width: 100%;
+	text-align: center;
+}
+
+#newTodo {
+	padding: 0px;
+	display: table-cell;
+	text-align: center;
+	vertical-align: middle;
+
+	min-width: 50px;
+	height: 50px;
+	font-size: 40px;
+	text-decoration: none;
+	background-color: #E27A3F;
+	color: #334D5C;
+
+	font-weight: bold;
+	
 }
 
 #tabView {
@@ -24,6 +48,8 @@ body,html {
 	height: 50px;
 	line-height: 50px;
 	background-color: #45B29D;
+	margin: 0px;
+	border-bottom: 1px solid #f2f2f2;
 }
 
 li#tabTodo, li#tabDone {
@@ -50,4 +76,10 @@ li#tabTodo {
 p#noItems {
 	width: 100%;
 	text-align: center;
+}
+
+#newTodoItemView {
+	background-color: #45B29D;
+	padding: 10px;
+	display: none;
 }
