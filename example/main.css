@@ -33,11 +33,21 @@ li#tabTodo, li#tabDone {
 		text-transform: uppercase;
 }
 
+li.active-tab {
+	font-weight: bold;
+	color: #EFC94C;
+}
+
 li#tabTodo {
 	border-right: 1px solid #f2f2f2;
 }
 
 
 .headerbar h1 {
+	text-align: center;
+}
+
+p#noItems {
+	width: 100%;
 	text-align: center;
 }

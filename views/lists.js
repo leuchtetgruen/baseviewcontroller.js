@@ -3,19 +3,33 @@
 
 var CollectionsAdapter = {
 				count : function() {
-						return this.collection.length;
+						return this._filteredCollection().length;
+				},
+
+				_filteredCollection : function() {
+						if (this.filter) {
+							var that = this;
+							return this.collection.filter(function(obj) {
+									return that.filter(obj);
+							});
+						}
+						else {
+							return this.collection.filter(function(obj) {
+									return true;
+							});
+						}
 				},
 				build : function(idx) {
 						if (this.buildItemFromModel) {
-							return this.buildItemFromModel(this.collection.at(idx));
+							return this.buildItemFromModel(this._filteredCollection()[idx]);
 						}
 						else {
-							return $('<li>' + this.collection.at(idx).toString() + "</li>");
+							return $('<li>' + this._filteredCollection()[idx].toString() + "</li>");
 						}
 				},
 				selectedItem : function(idx) {
 						if (this.selectedItemFromModel) {
-								this.selectedItemFromModel(this.collection.at(idx));
+								this.selectedItemFromModel(this._filteredCollection()[idx]);
 						}
 				},
 				setCollection : function(_collection) {
