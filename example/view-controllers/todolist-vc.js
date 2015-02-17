@@ -5,6 +5,11 @@ var TodoListAdapter = CollectionsAdapter.extend({
 		filter : function(todo) {
 				return (todo.get("done")==this.shouldBeDone);
 		},
+		
+		selectedItemFromModel : function(model) {
+				model.set("done", !this.shouldBeDone);
+				model.save();
+		},
 });
 
 var createTodoListController = function(shouldBeDone) {
