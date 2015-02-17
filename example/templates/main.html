@@ -1,17 +1,22 @@
 <div class="headerbar">
+		<!--This view will be available in MainViewController.newTodo-->
 		<a href="#" class="function" id="newTodo" view-type="contentview">+</a>
 		<h1>Todos</h1>
 </div>
 
+<!--This tab will be available in MainViewController.tabView-->
 <ul view-type="tabview" id="tabView" tabview-content-view="contentView">
+		<!--This tab will be available in MainViewController.tabTodo -->
 		<li id="tabTodo" view-type="tabitem" view-controller="TodoListController">Yet to do</li>
+		<!--This tab will be available in MainViewController.tabDone -->
 		<li id="tabDone" view-type="tabitem" view-controller="DoneListController">Done</li>
 </ul>
 
+<!--This will later (through js-code not through markup) be controlled by NewTodoVC-->
 <div id="newTodoItemView">
 </div>
 
 
+<!--This will later be controlled by TodoListController and DoneListController (see the tabs)-->
 <div id="contentView">
-
 </div>
