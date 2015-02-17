@@ -191,5 +191,5 @@ The according template (`templates/myview.html`) would look somewhat like this
 
 ##See also
 
-See the `baseviewcontroller.js` file for the source code of the BaseViewController.
+See the [ `baseviewcontroller.js` ](../baseviewcontroller.js) file for the source code of the BaseViewController.
 

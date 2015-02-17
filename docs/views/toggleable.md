@@ -42,4 +42,4 @@ checkbox.on("change", function(isChecked) {
 ````
 
 ##See also
-The source code for toggleables can be found in `views/forms.js`
+The source code for toggleables can be found in [ `views/forms.js` ](../../views/forms.js)

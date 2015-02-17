@@ -23,4 +23,4 @@ this.todoList.on("add remove", function() {
 
 
 ##See also
-See `views/baseview.js` for more information
+See [ `baseview.js` ](../../baseview.js) for more information

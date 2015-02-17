@@ -24,4 +24,4 @@ This function removes all children of the container from the DOM and clears the 
 
 
 ##See also
-See `views/baseview.js` for more information
+See [ `baseview.js` ](../../baseview.js) for more information.

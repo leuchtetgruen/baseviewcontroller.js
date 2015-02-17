@@ -17,4 +17,4 @@ This sets the view controller that will be instantiated when the tab is activate
 ##See also
 
 For an example on how to use a TabView see the [TabView](tabview.md) documentation. For the source code of 
-the TabItem view see `views/tabs.js`.
+the TabItem view see [ `views/tabs.js` ](../../views/tabs.js).

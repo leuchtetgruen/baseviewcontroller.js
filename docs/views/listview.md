@@ -94,4 +94,4 @@ The following javascript code could render todos into a list (using the models `
 
 ##See also
 
-You can take a look at the source code of the list view in the `views/lists.js` file.
+You can take a look at the source code of the list view in the [ `views/lists.js` ](../../views/lists.js) file.

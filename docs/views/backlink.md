@@ -17,4 +17,4 @@ See this piece of html within a template for an example of how to use a backLink
 
 ##See also
 
-You can also take a look at the sourcecode of backlinks in the `views/utils.js` file.
+You can also take a look at the sourcecode of backlinks in the [ `views/utils.js` ](../../views/utils.js) file.

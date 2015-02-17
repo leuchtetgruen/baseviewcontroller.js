@@ -39,5 +39,5 @@ Given the following html a tabview with three tabs and according view controller
 ##See also
 
 For more information on TabItems see the [TabItem](tabitem.md) documentation. For the source of the tabview see
-`views/tabs.js`.
+[ `views/tabs.js` ](../../views/tabs.js).
 

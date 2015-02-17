@@ -79,4 +79,4 @@ var EditTodoViewController {
 
 
 ##See also
-The basic functionality of Baseview is defined in `baseview.js`
+The basic functionality of Baseview is defined in [ `baseview.js` ](../baseview.js)

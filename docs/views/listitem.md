@@ -13,4 +13,4 @@ For an example on how to use ListViews see the [according documentation](listvie
 
 ##See also
 
-The sourcecode for ListItems can be found in the `views/lists.js` file.
+The sourcecode for ListItems can be found in the [ `views/lists.js` ](../../views/lists.js) file.

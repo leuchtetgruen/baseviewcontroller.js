@@ -23,5 +23,5 @@ this.titleView.set("I just set the text of the input field");
 ```
 
 ##See also
-See `views/forms.js` and `baseview.js` for the source of TextViews
+See [ `views/forms.js` ](../../views/forms.js) and [ `baseview.js` ](../../baseview.js) for the source of TextViews
 

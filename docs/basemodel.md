@@ -43,4 +43,4 @@ myTodo.bindView('title', titleView, true);
 
 ##See also
 
-Take a look at the `basemodel.js` file for the source code of BaseModel.
+Take a look at the [ `basemodel.js` ](../basemodel.js) file for the source code of BaseModel.

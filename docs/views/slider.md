@@ -27,4 +27,4 @@ this.todo.bindView("rating", this.ratingSlider);
 
 
 ##See also
-The code for the slider view can be found in `views/forms.js` and `baseview.js`
+The code for the slider view can be found in [ `views/forms.js` ](../../views/forms.js) and `baseview.js`
