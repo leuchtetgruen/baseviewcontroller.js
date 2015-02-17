@@ -21,10 +21,10 @@ have a `view-type` attribute. The view-type has to have one of the following val
 * [ slider ](views/slider.md)
 * [ toggleable ](views/toggleable.md)
 * [ listview ](views/listview.md)
-* listitem
-* tabview
-* tabitem
-* backlink
+* [ listitem ](views/listitem.md)
+* [ tabview ](views/tabview.md)
+* [ tabitem ](views/tabitem.md)
+* [ backlink ](views/backlink.md)
 
 For information on how to extend existing views into own views see `views/forms.js` as an example.
 
@@ -55,6 +55,7 @@ var EditTodoViewController {
 
 			this.todo = new Todo();
 			this.todoList.add(todo);
+			this.render();
 			
 	},
 

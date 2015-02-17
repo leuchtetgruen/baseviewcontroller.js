@@ -1,9 +1,15 @@
 
 // Tab functions
 var TabView = function(elem, vc, mixins) {
+		//TODO indicate active tabs
 		var myMixins = {
 				initialize : function() {
 						$(this.element).addClass("tabview");
+
+						var tabViewContentViewId = $(this.element).attr("tabview-content-view");
+						if (tabViewContentViewId) {
+								this.setContentElement($("#" + tabViewContentViewId));
+						}
 				},
 				setContentElement : function(element) {
 						this.contentElement = element;
@@ -16,6 +22,7 @@ var TabView = function(elem, vc, mixins) {
 		return Container(elem, vc, mergedMixins);
 };
 var TabItem = function(elem, vc, mixins) {
+		//TODO indicate active tabs
 		var myMixins = {
 				initialize : function() {
 						$(this.element).addClass("tab");
