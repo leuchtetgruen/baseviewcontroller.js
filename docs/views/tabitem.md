@@ -11,7 +11,8 @@ or using the `setViewController` function.
 
 ###setViewController(viewControllerClass)
 
-This sets the view controller that will be instantiated when the tab is activated.
+This sets the view controller that will be instantiated when the tab is activated. The view controller that gets
+activated will have a reference to the view controller that holds the tabview in its `parentViewController` property.
 
 
 ##See also

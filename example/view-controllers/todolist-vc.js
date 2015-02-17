@@ -15,12 +15,15 @@ var createTodoListController = function(shouldBeDone) {
 
 				initialize : function() {
 						console.log("ShouldBeDone is " + shouldBeDone);
-						this.todos = new TodoCollection();
-						this.todos.fetch();
+						this.todos = this.parentViewController.todos;
 						this.render();
 				},
 
 			   doneRendering : function() {
+					   var that = this;
+					   this.todos.on("add remove change", function() {
+							   that.filterList();
+					   });
 					   this.filterList();
 			   },
 

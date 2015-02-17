@@ -13,7 +13,11 @@ var MainViewController = BaseViewController.extend({
 				this.tabView.loadDefaultTab();
 
 				this.updateCounts();
-				this.todos.on("add remove change", this.updateCounts);
+				var that = this;
+				this.todos.on("add remove change", function() {
+						console.log("MainVC todos on add change remove");
+						that.updateCounts();
+				});
 		},
 
 		updateCounts : function() {

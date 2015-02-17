@@ -44,7 +44,8 @@ var TabItem = function(elem, vc, mixins) {
 								}
 
 								$(elem).addClass("active-tab");
-								new viewControllerClass({el : $(that.parentContainer.contentElement)});
+								var MixedVcClass = viewControllerClass.extend({parentViewController : vc});
+								new MixedVcClass({el : $(that.parentContainer.contentElement)});
 						});
 				}
 		};
