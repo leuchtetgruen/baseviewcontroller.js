@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Todo List</title>
+
+	<!-- CSS files to always include -->
+	<link href="../baseviewcontroller.css" rel="stylesheet" />
+	<link href="../baseviewcontroller.ui.css" rel="stylesheet" />
+
+	<!-- my CSS -->
+	<link href="main.css" rel="stylesheet" />
+
+
+	<!-- Underscore, jQuery and Backbone -->
+	<script type="text/javascript" src="js/underscore-min.js"></script>
+	<script type="text/javascript" src="js/jquery-2.1.3.min.js"></script>
+	<script type="text/javascript" src="js/backbone-min.js"></script>
+
+	<!-- this example will also use Backbone local storage -->
+	<script type="text/javascript" src="js/backbone.localStorage-min.js"></script>
+
+	<!-- Now let's include BaseViewController -->
+	<script type="text/javascript" src="../baseviewcontroller.full.js"></script>
+
+
+	<!-- Alright here comes the app specific part -->
+	<!--ViewControllers-->
+	<script type="text/javascript" src="view-controllers/main-vc.js"></script>
+	<script type="text/javascript" src="view-controllers/todolist-vc.js"></script>
+
+	<!--Models-->
+	<script type="text/javascript" src="models/todo.js"></script>
+</head>
+<body>
+        
+	<!-- Screens -->
+	<div id="mainView" class="screen">
+	</div>
+
+
+	<!--Entry point of the javascript-->
+	<script type="text/javascript">
+	
+		$(document).ready(function() {
+						var mainVc = new MainViewController({ el : $('#mainView') });
+		});		
+
+	</script>
+
+</body>
+</html>

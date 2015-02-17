@@ -38,6 +38,12 @@ var TabItem = function(elem, vc, mixins) {
 				setViewController : function(viewControllerClass) {
 						var that = this;
 						this.click(function() {
+								var children = $(that.parentContainer.element).children();
+								for (var i=0; i< children.length; i++) {
+										$(children[i]).removeClass("active-tab");
+								}
+
+								$(elem).addClass("active-tab");
 								new viewControllerClass({el : $(that.parentContainer.contentElement)});
 						});
 				}

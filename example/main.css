@@ -1,0 +1,43 @@
+body,html {
+		margin: 0px;
+		padding: 0px;
+		width: 100%;
+		height: 100%;
+
+		font-family: Helvetica;
+}
+
+#mainView {
+	background-color: #334D5C;
+	color: #f2f2f2;
+}
+
+.headerbar {
+	width: 100%;
+	height: 50px;
+	line-height: 50px;
+	background-color: #DF4949;
+}
+
+#tabView {
+	width: 100%;
+	height: 50px;
+	line-height: 50px;
+	background-color: #45B29D;
+}
+
+li#tabTodo, li#tabDone {
+		display: inline-block;
+		width: 48%;
+		text-align: center;
+		text-transform: uppercase;
+}
+
+li#tabTodo {
+	border-right: 1px solid #f2f2f2;
+}
+
+
+.headerbar h1 {
+	text-align: center;
+}
