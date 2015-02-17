@@ -19,9 +19,9 @@ var BaseViewController = Backbone.View.extend({
 	 * view controller will work with.
 	 */
 	transitionTo : function(ViewControllerClass, element, data) {
-			if (data && data['hide']) {
-					_doHide = data['hide'];
-					data = _.omit(data, 'hide');
+			if (data && data['empty']) {
+					_doHide = data['empty'];
+					data = _.omit(data, 'empty');
 
 			} 
 			else _doHide = false;
@@ -227,6 +227,22 @@ var BaseViewController = Backbone.View.extend({
 	},
 
 	/*
+	 * You can provide an own render function if you want to load different templates
+	 * within the same view controller.
+	 * Otherwise you can just set the template_url property and this URL will be loaded
+	 * when calling render();
+	 */
+	render : function() {
+			if (!this.template_url) {
+				console.error("no template_url property provided in the view controller");
+				return;
+			}
+			else {
+				this._render(this.template_url);
+			}
+	},
+
+	/*
 	 * Recursive function. Calls injectView on the root 
 	 * element and then calls itself on all its children()
 	 *
@@ -301,7 +317,7 @@ var BaseViewController = Backbone.View.extend({
 			_.each(viewEvents, function(eventString) {
 					var splitted = eventString.split(":");
 					if (splitted.length == 2) {
-							var fullEventSelector = splitted[0] + " #" + elem.attr("id");
+							var fullEventSelector = splitted[0].trim() + " #" + elem.attr("id");
 							that.events[fullEventSelector] = splitted[1].trim();
 					}
 			});

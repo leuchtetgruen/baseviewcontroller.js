@@ -40,3 +40,7 @@ myTodo.bindView('title', titleView, true);
 
 
 ```
+
+##See also
+
+Take a look at the `basemodel.js` file for the source code of BaseModel.
