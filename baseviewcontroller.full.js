@@ -652,9 +652,24 @@ var Toggleable = function(elem, vc, mixins) {
 		return f;
 };
 
+var ContentEditable = function(elem, vc, mixins) {
+		var myMixins = {
+				setEditable : function(editable) {
+						$(elem).attr("contenteditable", editable);
+				},
+				isEditable : function() {
+						return ( $(elem).attr("contenteditable")=="true" );
+				},
+		};
+
+		mergedMixins = _.extend(mixins || {} , myMixins);
+		return HTMLable(elem, vc, mergedMixins);
+};
+
 ViewTypes["textview"] = TextView;
 ViewTypes["slider"] = Slider;
 ViewTypes["toggleable"] = Toggleable;
+ViewTypes["editable-content"] = ContentEditable;
 
 // List views
 

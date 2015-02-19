@@ -1,6 +1,7 @@
 // List views
 
 
+//TODO write documentation
 var CollectionsAdapter = {
 				count : function() {
 						return this._filteredCollection().length;

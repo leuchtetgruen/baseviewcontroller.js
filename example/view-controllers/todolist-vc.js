@@ -20,6 +20,15 @@ var TodoListAdapter = CollectionsAdapter.extend({
 				model.set("done", !this.shouldBeDone);
 				model.save();
 		},
+
+		buildItemFromModel : function(model) {
+				var li = $("<li/>");
+
+				spanDelete = $("<span/>").appendTo(li);
+				spanContent = $("<span/>").html(model.toString()).appendTo(li);
+
+				return li;
+		},
 });
 
 // This function will be used to create the two
