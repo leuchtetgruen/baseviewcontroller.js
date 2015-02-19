@@ -221,8 +221,17 @@ var HTMLable = function(elem, vc, mixins) {
 				return "HTMLable based on #" + $(elem).attr("id") + " => " + this.get();
 		}
 
-		elem.change(function(e) {
+
+		// For content editable
+		elem.on("blur", function(e) {
 				f.trigger("change", elem.html());
+		});
+
+		// For other kinds of changes
+		elem.on("DOMCharacterDataModified", function(e) {
+				if (elem.attr("contenteditable")!="true") {
+					f.trigger("change", elem.html());
+				}
 		});
 
 		f.element = elem;
@@ -652,6 +661,7 @@ var Toggleable = function(elem, vc, mixins) {
 		return f;
 };
 
+//TODO write documentation
 var ContentEditable = function(elem, vc, mixins) {
 		var myMixins = {
 				setEditable : function(editable) {
@@ -674,6 +684,7 @@ ViewTypes["editable-content"] = ContentEditable;
 // List views
 
 
+//TODO write documentation
 var CollectionsAdapter = {
 				count : function() {
 						return this._filteredCollection().length;
