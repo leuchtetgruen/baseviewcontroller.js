@@ -25,6 +25,7 @@ have a `view-type` attribute. The view-type has to have one of the following val
 * [ tabview ](views/tabview.md)
 * [ tabitem ](views/tabitem.md)
 * [ backlink ](views/backlink.md)
+* [ editable-content ](views/contenteditable.md)
 
 For information on how to extend existing views into own views see `views/forms.js` as an example.
 
