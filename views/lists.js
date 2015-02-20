@@ -1,7 +1,6 @@
 // List views
 
 
-//TODO write documentation
 var CollectionsAdapter = {
 				count : function() {
 						return this._filteredCollection().length;
@@ -22,7 +21,14 @@ var CollectionsAdapter = {
 				},
 				build : function(idx) {
 						if (this.buildItemFromModel) {
-							return this.buildItemFromModel(this._filteredCollection()[idx]);
+							var model  = this._filteredCollection()[idx];
+							var builtFromModel =  this.buildItemFromModel(model);
+
+							if (model.isNew()) {
+								builtFromModel.addClass("new-model");
+							}
+
+							return builtFromModel;
 						}
 						else {
 							return $('<li>' + this._filteredCollection()[idx].toString() + "</li>");
