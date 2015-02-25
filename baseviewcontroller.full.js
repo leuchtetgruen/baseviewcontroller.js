@@ -907,10 +907,15 @@ ViewTypes["tabitem"] = TabItem;
 var BackLink = function(elem, vc, mixins) {
 		var myMixins = {
 				initialize : function() {
-						$(this.element).click(function(e) {
-								vc.transitionBack();
-								e.preventDefault();
-						});
+						if (vc.fromViewController) {
+								$(this.element).click(function(e) {
+										vc.transitionBack();
+										e.preventDefault();
+								});
+						}
+						else {
+							$(this.element).hide();
+						}
 				},
 		};
 		mergedMixins = _.extend(myMixins, mixins);
