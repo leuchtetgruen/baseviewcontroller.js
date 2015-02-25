@@ -37,7 +37,6 @@ var Toggleable = function(elem, vc, mixins) {
 		return f;
 };
 
-//TODO write documentation
 var ContentEditable = function(elem, vc, mixins) {
 		var myMixins = {
 				setEditable : function(editable) {

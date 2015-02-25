@@ -28,6 +28,8 @@ the item to be rendered.
 
 This is a callback function. It will be called when the list item at the position `idx` is selected (clicked, touched).
 
+If your `build`-method returns an element that has a subelement with the CSS-class `cell-content` only the subelement with this CSS element will react to clicks and call `selectedItem`.
+
 ###customizeListItem(listItem, idx)
 
 This is an optional callback. If it's implemented it's called right after the listItem (an [ListItem](listitem.md) object) is produced using the `build`-function. This function can be used to customize the produced listItem (e.g. setting other listeners, or manipulate it in other ways).
@@ -35,7 +37,7 @@ This is an optional callback. If it's implemented it's called right after the li
 
 ##More on adapters
 
-As lists oftentimes represent items from a Collection there is a specific adapter called [ `CollectionsAdapter` ](../collectionsadapter.md) that
+As lists oftentimes represent items from a Collection there is a specific adapter called [ `CollectionsAdapter` ](collectionsadapter.md) that
 can be extended to provide an adapter for items from a collection.
 
 

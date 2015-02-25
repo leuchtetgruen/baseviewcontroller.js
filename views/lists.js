@@ -103,7 +103,13 @@ var ListView = function(elem, vc, mixins) {
 									// but the variable as a for loop is not a fct.
 									//
 									// Sometimes JS sucks
-									lItem.click(clickHandlerProducer(i));
+									if ($(".cell-content", elem)) {
+											$(".cell-content", elem).click(clickHandlerProducer(i));
+									
+									}
+									else {
+											lItem.click(clickHandlerProducer(i));
+									}
 								}
 
 								this.append(lItem);
