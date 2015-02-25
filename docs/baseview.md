@@ -3,7 +3,8 @@ BaseView
 
 BaseView is *not* an extension of an existing Backbone mechanism. Views are wrappers
 around [jQuery](http://jquery.com/)-elements in a DOM. They provide additional functionality
-as compared to the pure jQuery-element.
+as compared to the pure jQuery-element. The original jQuery-functionality however is still
+available and can even be called directly on the injected views.
 
 They provide getters and setters and can be used as attributes in models. Through a mechanism
 called "view-injection" they can be automatically injected into a view controller as properties.

@@ -6,6 +6,10 @@ a anchor-element) with a `view-type=backlink` attribute. This will add an onClic
 `transitionBack`-method of the active ViewController. For more information on this mechanism see the documentation
 on [BaseViewController](../baseviewcontroller.js).
 
+If there is no view controller to go back (that is if `transitionTo` is not used or if this is the first view controller)
+this view will hide. You can still show it by calling `show` (as all jquery functions of the element are available on
+the view as well).
+
 
 ##Example
 
