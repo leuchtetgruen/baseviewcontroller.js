@@ -287,7 +287,35 @@ var Container = function(elem, vc, mixins) {
  * that might be extended with different
  * functions later.
  */
-var ContentView = HTMLable;
+var ContentView = function(elem, vc, mixins) {
+	
+		var myMixins = {
+				initialize : function() {
+						this._setContentAccordingToViewFillWith();
+				},
+				updateContents : function() {
+						this._setContentAccordingToViewFillWith();
+				},
+
+				_setContentAccordingToViewFillWith : function() {
+						var viewFillWith = $(this.element).attr("view-fill-with");
+
+						if (viewFillWith && vc[viewFillWith]) {
+								viewFillWithResult = vc[viewFillWith];
+
+								if (typeof(viewFillWithResult)=="function") {
+									this.set(viewFillWithResult.apply(vc));
+								}
+								else {
+									this.set(viewFillWithResult);
+								}
+						}
+				},
+		};
+
+		mergedMixins = _.extend(mixins || {} , myMixins);
+		return HTMLable(elem, vc, mergedMixins);
+};
 
 /* And assign them to their markup keywords in the
  * view-type attribute of each html element in a 
