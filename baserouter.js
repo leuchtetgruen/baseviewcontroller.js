@@ -11,22 +11,58 @@ String.prototype.hashCode = function(){
 
 
 RouterBuilder = function() {
-		this._routes = {};
+		// The reason why this is an array and not a hash
+		// is that I want to preserve the order as to
+		// not mix up default routes etc.
+		this._routes = []
 
-		this.registerRoute = function(routeDescription, ViewControllerClass, element) {
-			this._routes[routeDescription] = function() {
-					new ViewControllerClass({ el : element });
-			};
+
+		// Adds a route to the array of routes
+		// in the form of description -> routeFunction
+		//
+		// The description is the same as in Backbones router
+		this.addRoute = function(routeDescription, routeFunction) {
+				routeHash = {};
+				routeHash[routeDescription] = routeFunction;
+				this._routes.push(routeHash);
 		};
 
+		/*
+		 * This will register a route that will when called instantiate a view controller
+		 * and show the contents in the given element
+		 */
+		this.registerRouteForViewController = function(routeDescription, ViewControllerClass, element) {
+			this.addRoute(routeDescription, function() {
+					if (window.visibleViewController) {
+						window.visibleViewController.transitionTo(ViewControllerClass, element);
+					}
+					else {
+							new ViewControllerClass({ el : element });
+					}
+			});
+		};
+
+		/*
+		 * This will show a certain view controller in a certain element
+		 * as default (always matching) route
+		 */
 		this.setDefaultRoute = function(ViewControllerClass, element) {
-				this.registerRoute("*actions", ViewControllerClass, element);
+				this.registerRouteForViewController("*actions", ViewControllerClass, element);
 		};
 
+		/*
+		 * This route will load an element from a collection and put it into the loaded view controller as an attribute
+		 *
+		 * So /todos/:todo/participants, ParticipantsVC, $('#todoView') , { todo : TodoCollection } will, when a URL like
+		 * index.html#/todos/2/participants load the todo with the id 2 and then inject it into the ParticipantsVC as an
+		 * attribute named todo.
+		 * Nice - isn't it?
+		 */
 		this.registerRouteWithCollections = function(routeDescription, ViewControllerClass, element, paramToCollectionHash) {
 				if (!paramToCollectionHash) paramToCollectionHash = {};
+
 				var that = this;
-				this._routes[routeDescription] = function() {
+				routeFunction = function() {
 						var params = _.filter(arguments, function(arg) {
 								return (arg != null);
 						});
@@ -35,11 +71,15 @@ RouterBuilder = function() {
 
 						var extension = {};
 						var next = function(idx) {
-								console.log(params);
 								if (idx >= params.length) {
-										console.log("Showing VC");
 										var MixedVcClass = ViewControllerClass.extend(extension);
-										new MixedVcClass({ el : element});
+
+										if (window.visibleViewController) {
+												window.visibleViewController.transitionTo(MixedVcClass, element);
+										}
+										else {
+												new MixedVcClass({ el : element});
+										}
 
 										return; 
 								}
@@ -66,23 +106,13 @@ RouterBuilder = function() {
 
 						next(0);
 				};
+
+				this.addRoute(routeDescription, routeFunction);
 		};
 
-		this._buildRoutesHash = function() {
-				return _.mapObject(this._routes, function(routeCallback, routeDescription) {
-						return routeDescription.hashCode();
-				});
-		};
-
-		this._registerRouteCallbacks = function(router) {
-				_.each(this._routes, function(routeCallback, routeDescription) {
-						console.log("on route:" + routeDescription.hashCode());
-						console.log(routeCallback);
-
-						router.on("route:" + routeDescription.hashCode(), routeCallback);
-				});
-		};
-
+		/*
+		 * Use this function to finally build the router itself
+		 */
 		this.build = function() {
 				
 				_routes = this._buildRoutesHash();
@@ -94,6 +124,26 @@ RouterBuilder = function() {
 
 				return routerInstance;
 		};
+
+		this._buildRoutesHash = function() {
+				routesHash = {};
+
+				_.each(this._routes, function(route) {
+						routeDescription = _.keys(route)[0];
+						routesHash[routeDescription] = routeDescription.hashCode();
+				});
+				return routesHash;
+		};
+
+		this._registerRouteCallbacks = function(router) {
+				_.each(this._routes, function(route) {
+						routeDescription = _.keys(route)[0];
+						routeCallback = route[routeDescription];
+
+						router.on("route:" + routeDescription.hashCode(), routeCallback);
+				});
+		};
+
 
 
         this._sortParametersAccordingToAppearanceInRouteDescription = function(routeDescription, paramHash) {
