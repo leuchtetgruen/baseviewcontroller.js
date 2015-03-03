@@ -1012,14 +1012,14 @@ RouterBuilder = function() {
 								// let's load the item from the given collection
 								// first instantiate the collection
 								paramName = sortedParams[idx];
-								CollectionClass = paramToCollectionHash[paramName];
+								ItemClass = paramToCollectionHash[paramName];
 								
 								
-								if (CollectionClass) {
-									var collection = new CollectionClass();
-									collection.fetch({
+								if (ItemClass) {
+									var item = new ItemClass();
+									item.id = params[idx];
+									item.fetch({
 											success : function() {
-													item = collection.get(params[idx]);
 													extension[paramName] = item;
 
 													next(idx + 1);
@@ -1035,6 +1035,9 @@ RouterBuilder = function() {
 				this.addRoute(routeDescription, routeFunction);
 		};
 
+		/*
+		 * Use this function to finally build the router itself
+		 */
 		this.build = function() {
 				
 				_routes = this._buildRoutesHash();

@@ -87,14 +87,14 @@ RouterBuilder = function() {
 								// let's load the item from the given collection
 								// first instantiate the collection
 								paramName = sortedParams[idx];
-								CollectionClass = paramToCollectionHash[paramName];
+								ItemClass = paramToCollectionHash[paramName];
 								
 								
-								if (CollectionClass) {
-									var collection = new CollectionClass();
-									collection.fetch({
+								if (ItemClass) {
+									var item = new ItemClass();
+									item.id = params[idx];
+									item.fetch({
 											success : function() {
-													item = collection.get(params[idx]);
 													extension[paramName] = item;
 
 													next(idx + 1);
