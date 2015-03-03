@@ -125,7 +125,7 @@ var BaseViewFunctions = {
 				 */
 				_.each(fcts, function(fctName) {
 						that[fctName] = function() {
-								elem[fctName].apply(elem, arguments);
+								return elem[fctName].apply(elem, arguments);
 						};
 				});
 
