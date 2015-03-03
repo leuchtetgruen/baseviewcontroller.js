@@ -358,7 +358,9 @@ var BaseViewController = Backbone.View.extend({
 					fromViewController : this
 			}, data);
 			var MixedVcClass = ViewControllerClass.extend(extendedData);
-			new MixedVcClass({ el : element});
+			newVc = new MixedVcClass({ el : element});
+
+			newVc._updateUrl();
 	}, 
 
 	/*
@@ -370,6 +372,7 @@ var BaseViewController = Backbone.View.extend({
 			if (this.fromViewController) {
 					this.hide();
 					this.fromViewController.show();
+					this.fromViewController._updateUrl();
 			}
 	},
 
@@ -520,6 +523,28 @@ var BaseViewController = Backbone.View.extend({
 	 */
 	show : function() {
 			this._show();
+	},
+
+
+	/*
+	 * This function will update the URL for the used router
+	 * using the url property or function
+	 */
+	_updateUrl : function() {
+			var router = this.router || window.appRouter;
+			if (!router) {
+				return;
+			}
+			
+			var url = this.url;
+			if (!url) {
+				return;
+			}
+			else if (typeof(url)=="function") {
+				url = this.url();
+			}
+
+			router.navigate(url);
 	},
 
 	/*
@@ -972,6 +997,7 @@ RouterBuilder = function() {
 		 * as default (always matching) route
 		 */
 		this.setDefaultRoute = function(ViewControllerClass, element) {
+
 				this.registerRouteForViewController("*actions", ViewControllerClass, element);
 		};
 
@@ -1042,10 +1068,13 @@ RouterBuilder = function() {
 				
 				_routes = this._buildRoutesHash();
 				var RouterClass = Backbone.Router.extend({
-						routes : _routes
+						routes : _routes,
 				});
 				routerInstance = new RouterClass();
 				this._registerRouteCallbacks(routerInstance);
+
+				// for use with _updateUrl in ViewController
+				window.appRouter = routerInstance;
 
 				return routerInstance;
 		};

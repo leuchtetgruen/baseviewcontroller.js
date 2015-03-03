@@ -96,6 +96,10 @@ This function parses the `view-events` attribute of the given element. It should
 
 This property describes where the template that should be rendered when the `render()` function is called should be rendered can be found.This only works when you don't override the `render` function yourself.
 
+###url or url()
+This property or function describes the URL that should be shown in the navigation bar for this view controller. This only works if you implement this property or function and if you have
+a router object named `appRouter` in your global (that is `window` scope).
+
 ###transition
 
 This property describes what animation to use when transitioning from one screen to another. If you want to use these transitions you should add the `screen` CSS class to the view-elements that form your screens. The following transitions are included:

@@ -47,6 +47,7 @@ RouterBuilder = function() {
 		 * as default (always matching) route
 		 */
 		this.setDefaultRoute = function(ViewControllerClass, element) {
+
 				this.registerRouteForViewController("*actions", ViewControllerClass, element);
 		};
 
@@ -117,10 +118,13 @@ RouterBuilder = function() {
 				
 				_routes = this._buildRoutesHash();
 				var RouterClass = Backbone.Router.extend({
-						routes : _routes
+						routes : _routes,
 				});
 				routerInstance = new RouterClass();
 				this._registerRouteCallbacks(routerInstance);
+
+				// for use with _updateUrl in ViewController
+				window.appRouter = routerInstance;
 
 				return routerInstance;
 		};
